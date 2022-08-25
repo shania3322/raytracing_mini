@@ -1,0 +1,9 @@
+# Ignore all
+*
+
+# Unignore files with extensions
+!*.*
+
+# Ignore other files
+test/*
+*.ppm
