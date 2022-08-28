@@ -13,13 +13,15 @@ Ray Tracing in One Weekend [online book](https://raytracing.github.io/books/RayT
 # Logging
 
 **20/08/2022 - 22/08/2022**
+
 - Vec3 class and Ray class
 - render a sphere
 - compute normals on the surface
 
 **23/08/2022**
+
 - Enable creating an array of Sphere
-- Define Hittable class
-- Sphere subclass Hittable class
-- Specify hittable method for Sphere class
-- Let normals always point agains the incident ray
+- [x]Define Hittable class
+- [x]Sphere subclass Hittable class
+- [x]Specify hittable method for Sphere class
+- [x]Let normals always point agains the incident ray

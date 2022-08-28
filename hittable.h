@@ -1,7 +1,10 @@
-#pragma once
-
+#include <vector>
 #include "vec3.h"
 #include "ray.h"
+#include "shape.h"
+
+#ifndef HITTABLE_H
+#define HITTABLE_H
 
 struct Intersection {
 	Vec3 point;
@@ -27,6 +30,41 @@ class Hittable {
 		virtual bool hit(Ray &r, float t_min, float t_max, Intersection &rec) const = 0;
 };
 
-class IntersectList {
+class HittableList: public Hittable {
+	public:
+		std::vector<Hittable*> objects;
 
+	public:
+		HittableList() {}
+
+		void add(Hittable* obj) {
+			objects.push_back(obj);
+		}
+
+		void clear() {
+			objects.clear();
+		}
+
+		bool hit(Ray &r, float t_min, float t_max, Intersection &rec) const
+			override;
 };
+
+bool HittableList::hit(Ray &r, float t_min, float t_max, Intersection &rec) const {
+	// When ray hits multiple objects, store the closest intersection.
+	// At the end, only one set of intersections on viewport is saved.
+	//Intersection temp;
+	float closest_t = t_max;
+	bool if_hit = false;
+
+	//When shooting a ray, check each object in the scene and find if anywhere is hit.
+	for (const auto &obj : objects) {
+		if (obj->hit(r, t_min, closest_t, rec)) {
+			if_hit = true;
+			closest_t = rec.t;
+			//rec = temp;
+		}
+	}
+
+	return if_hit;
+}
+#endif

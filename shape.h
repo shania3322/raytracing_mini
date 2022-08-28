@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHAPE_H
+#define SHAPE_H
 
 #include "vec3.h"
 #include "hittable.h"
@@ -13,23 +14,23 @@ Shape::~Shape() {
 	std::cerr<<"Base Shape destructor is called\n";
 }
 
-class Circle: public Hittable {
+class Sphere: public Hittable {
 	public:
 		Vec3 center;
 		float radius;
 
-		Circle() {}
-		Circle(Vec3 c, float r): center(c), radius(r) {}
-		~Circle() {}
+		Sphere() {}
+		Sphere(Vec3 c, float r): center(c), radius(r) {}
+		~Sphere() {}
 
-		virtual bool hit(Ray &p, float t_min, float t_max, Intersection &rec) const
+		bool hit(Ray &p, float t_min, float t_max, Intersection &rec) const
 			override;
 };
 
-bool Circle::hit(Ray &p, float t_min, float t_max, Intersection &rec) const
+bool Sphere::hit(Ray &p, float t_min, float t_max, Intersection &rec) const
 {
 	/* ray: P=A+t*D
-	 * Circle: center C, radius r
+	 * Sphere: center C, radius r
 	 * if a ray hits circle, it should satisfy:
 	 * dot((P-C),(P-C)) = r^2 ----(1)
 	 *
@@ -56,7 +57,7 @@ bool Circle::hit(Ray &p, float t_min, float t_max, Intersection &rec) const
 
 	// but we only render the closer point, thus t2 is omitted.
 	float t = -1.0f/(2.0f*a)*b - sqrt(discriminant)*1.0f/(2.0f*a);
-	if (t>=t_min||t<=t_max) {
+	if (t>=t_min && t<=t_max) {
 		rec.t = t;
 	} else {
 		return false;
@@ -64,6 +65,7 @@ bool Circle::hit(Ray &p, float t_min, float t_max, Intersection &rec) const
 
 	rec.point = p.at(rec.t);
 	rec.normal = (rec.point-C)/radius;
+	rec.set_normal(p);
 	return true;
 };
 
@@ -76,3 +78,4 @@ class Plane: public Shape {
 		Plane() {}
 		~Plane() {}
 };
+#endif
