@@ -14,19 +14,26 @@ Ray Tracing in One Weekend [online book](https://raytracing.github.io/books/RayT
 
 **20/08/2022 - 22/08/2022**
 
-- [x]Vec3 class and Ray class
-- [x]render a sphere
-- [x]compute normals on the surface
+- [x] Vec3 class and Ray class
+- [x] render a sphere
+- [x] compute normals on the surface
 
-**23/08/2022**
+**23/08/2022 - 27/08/2022**
 
-- [x]Enable creating an array of Sphere
-- [x]Define Hittable class
-- [x]Sphere subclass Hittable class
-- [x]Specify hittable method for Sphere class
-- [x]Let normals always point agains the incident ray
+- [x] Enable creating an array of Sphere
+- [x] Define Hittable class
+- [x] Sphere subclass Hittable class
+- [x] Specify hittable method for Sphere class
+- [x] Let normals always point agains the incident ray
 
 **28/08/2022**
-- [x]Antialiasing
-- []Diffuse Materials
+- [x] Antialiasing
+- [x] Diffuse Materials
+
+**29/08/2022 - 01/09/2022**
+- [x] Abstract material class
+- [x] Add more materials
+
+**02/09/2022**
+- [] Position Camera
 

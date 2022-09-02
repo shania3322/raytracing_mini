@@ -20,7 +20,7 @@ class Test
 
 void Test::test_shape() {
 	Sphere c1{};
-	Sphere c2 = Sphere(Vec3(1.0f,0.0f,0.0f), 0.1f);
+	//Sphere c2 = Sphere(Vec3(1.0f,0.0f,0.0f), 0.1f);
 	std::cout<<"center-"<<c2.center<<' '<<"radius-"<<c2.radius<<'\n';
 	std::cout<<"center-"<<c1.center<<' '<<"radius-"<<c1.radius<<'\n';
 

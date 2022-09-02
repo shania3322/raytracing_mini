@@ -5,6 +5,8 @@
 #include "hittable.h"
 #include <iostream>
 
+class Material;
+
 struct Shape {
 	Shape(){}
 	virtual ~Shape()=0;
@@ -18,9 +20,10 @@ class Sphere: public Hittable {
 	public:
 		Vec3 center;
 		float radius;
+		Material* mat_ptr;
 
 		Sphere() {}
-		Sphere(Vec3 c, float r): center(c), radius(r) {}
+		Sphere(Vec3 c, float r, Material& mat): center(c), radius(r), mat_ptr{&mat} {}
 		~Sphere() {}
 
 		bool hit(Ray &p, float t_min, float t_max, Intersection &rec) const
@@ -66,16 +69,21 @@ bool Sphere::hit(Ray &p, float t_min, float t_max, Intersection &rec) const
 	rec.point = p.at(rec.t);
 	rec.normal = (rec.point-C)/radius;
 	rec.set_normal(p);
+	rec.mat_ptr = mat_ptr;
 	return true;
 };
 
-
-class Plane: public Shape {
+class Plane: public Hittable {
 	public:
 		Vec3 origin;
 		Vec3 normal;
 
 		Plane() {}
+		Plane(Vec3 o, Vec3 n): origin(o), normal(n) {}
 		~Plane() {}
+
+		bool hit(Ray &p, float t_min, float t_max, Intersection &rec) const override;
+
 };
+
 #endif

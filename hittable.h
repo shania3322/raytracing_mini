@@ -1,16 +1,20 @@
 #include <vector>
 #include "vec3.h"
 #include "ray.h"
-#include "shape.h"
+//#include "shape.h"
+#include "util.h"
 
 #ifndef HITTABLE_H
 #define HITTABLE_H
+
+class Material;
 
 struct Intersection {
 	Vec3 point;
 	Vec3 normal;
 	float t;
 	bool frontface;
+	Material* mat_ptr;
 
 	void set_normal(Ray &r);
 };
