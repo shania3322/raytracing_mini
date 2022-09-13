@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 
+#define PI 3.14159265358979f
 
 float random_float() {
 	//return value in range [0,1)
@@ -23,3 +24,6 @@ float clamp (float x, float min, float max) {
 	return x;
 }
 
+float degree2rad(float degree) {
+	return (degree*PI)/180.0f;
+}

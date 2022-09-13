@@ -3,7 +3,7 @@
 # Learning Materials
 Ray Tracing in One Weekend [online book](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 
-# Object
+# Objective
 1. Being able to program in c++ comfortably at the end of the course
 2. Understand how Ray Tracing works and able to explain it in simple words
 3. Logging daily progress and the weekly object
@@ -34,6 +34,12 @@ Ray Tracing in One Weekend [online book](https://raytracing.github.io/books/RayT
 - [x] Abstract material class
 - [x] Add more materials
 
-**02/09/2022**
-- [] Position Camera
+**02/09/2022 - 04/09/2022**
+- [x] Dielectrics meterial - modelling reflection and refraction
+
+**05/09/2022 - 13/09/2022**
+- [x] Field of view
+- [x] Position Camera
+- [x] Replace pinhole model with lens
+- [X] A simple model of depth of focus
 

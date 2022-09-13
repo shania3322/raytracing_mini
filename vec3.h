@@ -109,22 +109,78 @@ Vec3 random_unit_vector() {
 	return unit_vector(random_in_unit_sphere());
 }
 
+std::ostream& operator<<(std::ostream& os, const Vec3 v)
+{
+	os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+	return os;
+}
+
+Vec3 random_in_disc(float radius) {
+	while (true) {
+		Vec3 next_point = Vec3(random_float(-1.0f, 1.0f), random_float(-1.0f,1.0f), 0.0f);
+		if (dot(next_point,next_point)<1){
+			return next_point*radius;
+		}
+	}
+}
+
 Vec3 reflected(Vec3 r, Vec3 n) {
 	return 2*dot(-r,n)*n + r;
 }
 
-float angle_cos(Vec3 v1, Vec3 v2) {
+Vec3 refract(Vec3 &r, Vec3 &n, float &roi) {
+	Vec3 unit_r = unit_vector(r);
+	float cos_theta = fmin(dot(-unit_r,n), 1.0f);
+	float if_refract = 1.0f - roi*sqrt(1.0f-cos_theta*cos_theta);
+	if (if_refract<0){
+		return Vec3(0.0f,0.0f,0.0f);
+	} else {
+		Vec3 r_p = roi*(unit_r + cos_theta*n);
+		Vec3 r_n = sqrt(1.0f-dot(r_p,r_p))*(-n);
+		return (r_p+r_n);
+	}
+}
+
+float cosTheta(Vec3 v1, Vec3 v2) {
 	return dot(v1, v2)/(v1.length()*v2.length());
+}
+
+Vec3 rotation(Vec3 rotate_ctr, Vec3 other, float roll, float pitch, float yaw) {
+	//Rotating points using a rotation matrix
+	//Since we rotate viewport, normally we only rotate around x and y
+	Vec3 Rx[3] = {
+		Vec3(1.0f, 0.0f, 0.0f),
+		Vec3(0.0f, cos(roll), -sin(roll)),
+		Vec3(0.0f, sin(roll), cos(roll)),
+	};
+	Vec3 Ry[3] = {
+		Vec3(cos(pitch), 0.0f, sin(pitch)),
+		Vec3(0.0f, 1.0f, 0.0f),
+		Vec3(-sin(pitch), 0.0f, cos(pitch)),
+	};
+	Vec3 Rz[3] = {
+		Vec3(cos(yaw), -sin(yaw), 0.0f),
+		Vec3(sin(yaw), cos(yaw), 0.0f),
+		Vec3(0.0f, 0.0f, 1.0f),
+	};
+
+	Vec3 v1 = other - rotate_ctr;
+	Vec3 t;
+	t.x = dot(Rx[0],v1);
+	t.y = dot(Rx[1],v1);
+	t.z = dot(Rx[2],v1);
+	t.x = dot(Ry[0],t);
+	t.y = dot(Ry[1],t);
+	t.z = dot(Ry[2],t);
+	t.x = dot(Rz[0],t);
+	t.y = dot(Rz[1],t);
+	t.z = dot(Rz[2],t);
+	return t+rotate_ctr;
 }
 
 //Type alias
 //using Point3 = Vec3;
 using Color = Vec3;
 
-std::ostream& operator<<(std::ostream& os, const Vec3 v)
-{
-	os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
-	return os;
-}
 
 
