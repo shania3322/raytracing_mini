@@ -1,10 +1,7 @@
 # Ignore all
-*
-
-# Unignore files with extensions
+/*
+#
+## Unignore files with extensions
+#!.gitignore
 !*.*
-!/img_final
-!/img_final/*
-
-# Ignore other files
-*.ppm
+!img_final
