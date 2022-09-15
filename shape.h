@@ -23,7 +23,7 @@ class Sphere: public Hittable {
 		Material* mat_ptr;
 
 		Sphere() {}
-		Sphere(Vec3 c, float r, Material& mat): center(c), radius(r), mat_ptr{&mat} {}
+		Sphere(Vec3 c, float r, Material* mat): center(c), radius(r), mat_ptr{mat} {}
 		~Sphere() {}
 
 		bool hit(Ray &p, float t_min, float t_max, Intersection &rec) const

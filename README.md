@@ -1,5 +1,7 @@
 # leaning C++ via writing a simple Ray Tracer
 
+My first c++ project
+
 # Learning Materials
 Ray Tracing in One Weekend [online book](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 
@@ -43,3 +45,19 @@ Ray Tracing in One Weekend [online book](https://raytracing.github.io/books/RayT
 - [x] Replace pinhole model with lens
 - [X] A simple model of depth of focus
 
+**Final Rendering**
+
+![Final Scene: 50 samples per pixel](img_final\scene1.ppm)
+
+![Defocus](img_final\defocus.ppm)
+
+![Change camera position](img_final\cmr.ppm)
+![](img_final\cmr1.ppm)
+
+![Glass Material](img_final\glassT.ppm)
+
+![Metal Materials](img_final\fuzzy_metal.ppm)
+
+![Diffuse Materials](img_final\combine_diffuse.ppm)
+
+![SuperResolution](img_final\SuperResolution.ppm)

@@ -121,44 +121,88 @@ Color ray_color(Ray &r, HittableList &obj_list, int max_depth) {
 	}
 }
 
+HittableList scene(Material **mat, int num) {
+	HittableList h;
+	// Generate Materials
+	mat[0] = new Lambertian(Vec3(0.8f,0.8f,0.0f));
+	mat[1] = new Lambertian(Vec3(0.1f,0.2f,0.5f));
+	mat[2] = new Metal(Vec3(0.8f,0.6f,0.2f), 0.0f);
+	mat[3] = new Dielectrics(1.5);
+	Sphere* ground = new Sphere(Vec3(0.0f, -800.0f, 0.0f), 800.0f, mat[0]);
+	Sphere* b1 = new Sphere(Vec3(0.0f, 1.0f, -1.0f), 1.0f, mat[1]);
+	Sphere* b2 = new Sphere(Vec3(-3.0f, 1.0f, -1.0f), 1.0f, mat[2]);
+	Sphere* b3 = new Sphere(Vec3(3.0f, 1.0f, -1.0f), 1.0f, mat[3]);
+	h.add(ground);
+	h.add(b1);
+	h.add(b2);
+	h.add(b3);
+
+	for (int j=4;j<num-4;++j)
+	{
+		float m = random_float();
+		Color c = Vec3(random_float(), random_float(), random_float());
+		Vec3 pos = Vec3(random_float(1.0f,12.0f)-7.0f,0.2f,random_float(1.0f,12.0f)-8.0f);
+
+		if (m<=0.6f) {
+			mat[j] = new Lambertian(c);
+		}
+		else if (m>=0.7f)
+		{
+			mat[j] = new Metal(c, random_float());
+		}
+		else
+		{
+			mat[j] = new Dielectrics(1.5f);
+		}
+		// Add a object to hittable list
+		Sphere* s = new Sphere(pos,random_float(0.1f,0.3f), mat[j]);
+		h.add(s);
+	}
+
+	return h;
+}
+
 #ifndef ENABLE_TEST
 int main() {
 	// Image
-	const float aspect_ratio = 16.0f/9.0f;
-	const int img_width = 512;
+	const float aspect_ratio = 4.0f/3.0f;
+	const int img_width = 800;
 	const int img_height = int(float(img_width)/aspect_ratio);
-	const int samples_per_pixel = 10;
+	const int samples_per_pixel = 50;
 	const int max_depth = 50;
-	Lambertian diffuse1= Lambertian(Vec3(0.8f,0.8f,0.0f));
-	Lambertian diffuse2 = Lambertian(Vec3(0.1f,0.2f,0.5f));
-	Metal metal1 = Metal(Vec3(0.8f,0.6f,0.2f), 0.0f);
-	Metal metal2 = Metal(Vec3(0.8f,0.8f,0.2f), 0.8f);
-	Dielectrics glass1 = Dielectrics(1.5);
-	Dielectrics glass2 = Dielectrics(1.5);
+	//Lambertian diffuse1= Lambertian(Vec3(0.8f,0.8f,0.0f));
+	//Lambertian diffuse2 = Lambertian(Vec3(0.1f,0.2f,0.5f));
+	//Metal metal1 = Metal(Vec3(0.8f,0.6f,0.2f), 0.0f);
+	//Metal metal2 = Metal(Vec3(0.8f,0.8f,0.2f), 0.8f);
+	//Dielectrics glass1 = Dielectrics(1.5);
+	//Dielectrics glass2 = Dielectrics(1.5);
 
 	//camera
-	Vec3 lookfrom = Vec3(3.0f, 3.0f, 2.0f);
-	Vec3 lookat = Vec3(0.0f,0.0f,-1.0f);
+	Vec3 lookfrom = Vec3(13.0f, 2.0f, 3.0f);
+	Vec3 lookat = Vec3(0.0f,0.0f,0.0f);
 	Vec3 vup = Vec3(0.0f,1.0f,0.0f);
-	float aperture_radius = 2.0f;
-	float focus_distance = (lookfrom-lookat).length();
-	Camera camera(lookfrom,lookat,vup, 20.0f, aspect_ratio,
+	float aperture_radius = 0.1f;
+	//float focus_distance = (lookfrom-lookat).length();
+	float focus_distance = 10.0f;
+	Camera camera(lookfrom,lookat,vup, 30.0f, aspect_ratio,
 			aperture_radius, focus_distance);
 
 	// Render
 	std::cout<<"P3\n"<<img_width<<" "<<img_height<<"\n255\n";
 
-	HittableList obj_list;
-	Sphere c3 = Sphere(Vec3(0.0f, -100.5f, -1.0f), 100.0f, diffuse1);
-	Sphere c4 = Sphere(Vec3(0.0f, 0.0f, -1.0f), 0.5f, diffuse2);
-	Sphere c1 = Sphere(Vec3(-1.0f, 0.0f, -1.0f), 0.5f, glass1);
-	Sphere c2 = Sphere(Vec3(-1.0f, 0.0f, -1.0f), -0.45f, glass1);
-	Sphere c5 = Sphere(Vec3(1.0f, 0.0f, -1.0f), 0.5f, metal1);
-	obj_list.add(&c1);
-	obj_list.add(&c2);
-	obj_list.add(&c3);
-	obj_list.add(&c4);
-	obj_list.add(&c5);
+	int num = 60;
+	Material **mat = new Material*[num];
+	HittableList obj_list = scene(mat, num);
+	//Sphere c3 = Sphere(Vec3(0.0f, -100.5f, -1.0f), 100.0f, diffuse1);
+	//Sphere c4 = Sphere(Vec3(0.0f, 0.0f, -1.0f), 0.5f, diffuse2);
+	//Sphere c1 = Sphere(Vec3(-1.0f, 0.0f, -1.0f), 0.5f, glass1);
+	//Sphere c2 = Sphere(Vec3(-1.0f, 0.0f, -1.0f), -0.45f, glass1);
+	//Sphere c5 = Sphere(Vec3(1.0f, 0.0f, -1.0f), 0.5f, metal1);
+	//obj_list.add(&c1);
+	//obj_list.add(&c2);
+	//obj_list.add(&c3);
+	//obj_list.add(&c4);
+	//obj_list.add(&c5);
 
 	for (int i=img_height-1; i>=0; --i){
 		std::cerr<<"\rScanlines remaining:"<<i<<std::flush;
@@ -178,6 +222,11 @@ int main() {
 		}
 	}
 	std::cerr<<"\nDone.\n";
+	for (int i=0;i<num;++i)
+	{
+		delete mat[i];
+	}
+	delete []mat;
 	return 0;
 }
 #else

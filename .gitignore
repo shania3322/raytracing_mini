@@ -3,7 +3,8 @@
 
 # Unignore files with extensions
 !*.*
+!/img_final
+!/img_final/*
 
 # Ignore other files
-test/*
 *.ppm

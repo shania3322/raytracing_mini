@@ -31,6 +31,7 @@ void Intersection::set_normal(Ray &r) {
 
 class Hittable {
 	public:
+		virtual ~Hittable(){};
 		virtual bool hit(Ray &r, float t_min, float t_max, Intersection &rec) const = 0;
 };
 
@@ -40,6 +41,13 @@ class HittableList: public Hittable {
 
 	public:
 		HittableList() {}
+
+		~HittableList(){
+			for(auto obj : objects)
+			{
+				delete obj;
+			}
+		}
 
 		void add(Hittable* obj) {
 			objects.push_back(obj);

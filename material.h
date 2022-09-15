@@ -6,6 +6,7 @@ struct Intersection;
 
 class Material {
 	public:
+		virtual ~Material(){};
 		virtual bool scattered(Ray &in, Ray &scattered, Vec3 &attenuation, Intersection &rec) const = 0;
 };
 
